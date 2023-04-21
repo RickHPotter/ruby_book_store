@@ -1,28 +1,38 @@
 # frozen_string_literal: true
 
-%w[book stock].each { |file| require_relative file }
+%w[cart book ebook magazine product].each do |file|
+  require_relative file
+end
 
-book = Book.new('Beginning with Ruby 3', 29.0, 2021, true)
-books = [book]
+books = []
+book1 = Book.new('Book1', 'Pub', 2022, 29.0, false)
+book2 = Book.new('Book2', 'Pub', 2022, 29.0, false)
+book3 = Book.new('Book3', 'Pub', 2022, 39.0, true)
+book4 = Book.new('Book4', 'Pub', 2022, 29.0, true)
+book5 = Book.new('Book5', 'Pub', 2013, 23.0, true)
+book6 = Book.new('Book6', 'Pub', 2018, 19.0, true)
 
-books << Book.new('Learn Enough Ruby to be Dangerous', 39.0, 2022, false)
-books << Book.new('Book 2013', 23.0, 2013, false)
-books << Book.new('Book 2018', 19.0, 2018, false)
+books << book1 << book1 << book1 << book2 << book3 \
+        << book4 << book4 << book5 << book6 << book6
 
-stock = Stock.new(books)
+magazines = [
+  Magazine.new('Magazine1', 'Pub', 2020, 12.0, 16),
+  Magazine.new('Magazine2', 'Pub', 2021, 12.0, 16),
+  Magazine.new('Magazine3', 'Pub', 2022, 13.0, 16)
+]
 
-# puts 'Book Context: '
-# Book.invoice books
+ebook = Ebook.new('Ebook1', 'Pub', 2018, 19.0)
 
-# this is splendid, this one-line each method retrieves its values
-# and upon these values it runs the (%:) method assigned
-# books.each(&:final_price)
+cart = Cart.new([])
+cart << book6
+cart << magazines
+cart << ebook
 
-puts 'Books Cheaper Than 24: '
-Book.invoice stock.cheaper_than(24.0)
+puts 'Products Cheaper Than 24: '
+Product.invoice cart.cheaper_than(24.0)
 
-puts "\nExporting from Stock: "
-stock.export # 4 books here before removal
+puts "\nExporting from Cart: "
+cart.export
 
-# stock.remove(book)
-# stock.export # 3 books here after removal
+# puts 'here'
+# puts cart.more_sales_year(2013)
